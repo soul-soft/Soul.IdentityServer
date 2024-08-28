@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Soul.IdentityServer.Models;
 
 namespace Soul.IdentityServer.Validation
 {
-    internal class ClientSecretParsers
+    internal class ClientCredentialstParsers
     {
-        private readonly IEnumerable<IClientSecretParser> _parsers;
+        private readonly IEnumerable<IClientCredentialsParser> _parsers;
 
-        public ClientSecretParsers(IEnumerable<IClientSecretParser> parsers)
+        public ClientCredentialstParsers(IEnumerable<IClientCredentialsParser> parsers)
         {
             _parsers = parsers;
         }
 
-        public Task<ClientSecretParsed?> ParseAsync(HttpContext context)
+        public Task<ClientCredentials?> ParseAsync(HttpContext context)
         {
             foreach (var item in _parsers)
             {

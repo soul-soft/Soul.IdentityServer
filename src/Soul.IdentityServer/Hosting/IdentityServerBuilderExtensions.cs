@@ -16,10 +16,10 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 return sp.GetRequiredService<IOptions<IdentityServerOptions>>().Value;
             });
-            builder.Services.AddTransient<ClientSecretParsers>();
+            builder.Services.AddTransient<ClientCredentialstParsers>();
             builder.AddEndpointHandler<TokenEndpointHandler>("token");
             builder.AddEndpointHandler<AuthorizeEndpointHandler>("authorize");
-            builder.AddClientSecretParser<FromFormHashClientSecretParser>();
+            builder.AddClientSecretParser<FromFormHashClientCredentialsParser>();
             return builder;
         }
 

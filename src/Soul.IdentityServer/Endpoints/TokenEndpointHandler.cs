@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Soul.IdentityModel;
 using Soul.IdentityServer.Exceptions;
 using Soul.IdentityServer.Hosting;
@@ -11,14 +12,14 @@ namespace Soul.IdentityServer.Endpoints
         private readonly IClientStore _clientStore;
         private readonly IResourceStore _resourceStore;
         private readonly IdentityServerOptions _options;
-        private readonly ClientSecretParsers _clientSecretParsers;
+        private readonly ClientCredentialstParsers _clientSecretParsers;
         private readonly IClientSecretValidator _clientSecretValidator;
 
         public TokenEndpointHandler(
             IClientStore clientStore,
             IResourceStore resourceStore,
             IdentityServerOptions options,
-            ClientSecretParsers clientSecretParsers,
+            ClientCredentialstParsers clientSecretParsers,
             IClientSecretValidator clientSecretValidator)
         {
             _options = options;
@@ -41,7 +42,7 @@ namespace Soul.IdentityServer.Endpoints
             {
                 throw new InvalidRequestException("invalid_request", "Invalid content type");
             }
-
+          
             // 读取请求参数
             var form = await context.Request.ReadFormAsync();
             var request = new TokenRequestParameters
@@ -65,17 +66,17 @@ namespace Soul.IdentityServer.Endpoints
             {
                 throw new InvalidRequestException("invalid_request", "The 'client_id' parameter is missing.");
             }
-
+            
             //获取client
             var client = await _clientStore.FindClientByIdAsync(request.ClientId);
             
             if (client == null)
             {
-                throw new InvalidRequestException("invalid_request", "The client cannot be null. Please provide a valid client.");
+                throw new InvalidRequestException("invalid_request", "The client secret is missing or invalid.");
             }
 
             //解析clientSecret
-            var clientSecretParsed = await _clientSecretParsers.ParseAsync(context) ?? throw new InvalidRequestException("invalid_request", "?");
+            var clientSecretParsed = await _clientSecretParsers.ParseAsync(context) ?? throw new InvalidRequestException("invalid_request", "Client secret validation failed. Please check your credentials.");
 
             //验证clientSecret
             var clientSecretValidateResult = await _clientSecretValidator.ValidateAsync(client, clientSecretParsed);

@@ -29,9 +29,9 @@ namespace Soul.IdentityServer.Hosting
         }
 
         public IdentityServerBuilder AddClientSecretParser<TClientSecretParser>()
-            where TClientSecretParser : class, IClientSecretParser
+            where TClientSecretParser : class, IClientCredentialsParser
         {
-            Services.AddTransient<IClientSecretParser, TClientSecretParser>();
+            Services.AddTransient<IClientCredentialsParser, TClientSecretParser>();
             return this;
         }
 
