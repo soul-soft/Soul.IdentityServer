@@ -9,5 +9,14 @@ namespace Soul.IdentityModel
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public List<Claim> UserClaims { get; set; } = new List<Claim>();
+
+        protected IdentityResource() { }
+
+        public IdentityResource(string name, string displayName, string description)
+        {
+            Name = name;
+            DisplayName = displayName;
+            Description = description;
+        }
     }
 }

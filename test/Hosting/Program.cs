@@ -11,10 +11,7 @@ builder.Services.AddIdentityServer(builder =>
     builder.AddResourceStore(
         new ApiScope[] 
         {
-            new ApiScope
-            {
-                Name = "baseapi"
-            }
+            new ApiScope("baseapi")
         },
         new ApiResource[] 
         {
