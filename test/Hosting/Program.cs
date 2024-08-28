@@ -11,22 +11,22 @@ builder.Services.AddIdentityServer(builder =>
     builder.AddResourceStore(
         new ApiScope[]
         {
-            new ApiScope("baseapi")
+            new("baseapi")
         },
         new ApiResource[]
         {
-            new ApiResource("mallapi")
+            new("mallapi")
             {
                 Scopes = { "baseapi"}
             },
-            new ApiResource("orderapi")
+            new("orderapi")
             {
                 Scopes = { "baseapi"}
             },
         },
         new IdentityResource[]
         {
-            new IdentityResource("openid")
+            new("openid")
         });
 
     builder.ConfigureOptions(configureOptions =>
