@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\src\Soul.IdentityServer\Soul.IdentityServer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IdentityServer\" />
+  </ItemGroup>
+
 </Project>

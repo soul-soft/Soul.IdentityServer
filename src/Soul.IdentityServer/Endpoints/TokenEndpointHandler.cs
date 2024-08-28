@@ -8,10 +8,14 @@ namespace Soul.IdentityServer.Endpoints
     public class TokenEndpointHandler : IEndpointHandler
     {
         private readonly IClientStore _clientStore;
+        private readonly IResourceStore _resourceStore;
 
-        public TokenEndpointHandler(IClientStore clientStore)
+        public TokenEndpointHandler(
+            IClientStore clientStore,
+            IResourceStore resourceStore)
         {
             _clientStore = clientStore;
+            _resourceStore = resourceStore;
         }
 
         public async Task HandleAsync(HttpContext context)
@@ -58,7 +62,7 @@ namespace Soul.IdentityServer.Endpoints
             {
                 throw new InvalidRequestException("invalid_request", "The client cannot be null. Please provide a valid client.");
             }
-
+            _resourceStore.GetResourcesAsync();
             // 示例响应
             await context.Response.WriteAsJsonAsync(new { Token = "123456" });
         }

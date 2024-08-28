@@ -1,6 +1,6 @@
 ﻿namespace Soul.IdentityModel
 {
-    public class ApiScope
+    public class ApiScope : IScope
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
