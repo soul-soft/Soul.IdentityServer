@@ -12,6 +12,7 @@ builder.Services.AddIdentityServer(builder =>
     {
         new Client("test")
     });
+   
     builder.AddResourceStore(
         new ApiScope[]
         {
