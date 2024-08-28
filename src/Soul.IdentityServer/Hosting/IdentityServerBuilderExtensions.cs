@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 return sp.GetRequiredService<IOptions<IdentityServerOptions>>().Value;
             });
+            builder.Services.AddTransient<ClientSecretParsers>();
             builder.AddEndpointHandler<TokenEndpointHandler>("token");
             builder.AddEndpointHandler<AuthorizeEndpointHandler>("authorize");
             builder.AddClientSecretParser<FromFormHashClientSecretParser>();

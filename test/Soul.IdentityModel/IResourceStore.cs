@@ -4,6 +4,6 @@ namespace Soul.IdentityModel
 {
     public interface IResourceStore
     {
-        Task<Resources> GetResourcesAsync(string[] scopes);
+        Task<Resources> GetResourcesByScopeAsync(string[] scopes);
     }
 }

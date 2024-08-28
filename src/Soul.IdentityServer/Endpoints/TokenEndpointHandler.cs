@@ -2,20 +2,30 @@
 using Soul.IdentityModel;
 using Soul.IdentityServer.Exceptions;
 using Soul.IdentityServer.Hosting;
+using Soul.IdentityServer.Validation;
 
 namespace Soul.IdentityServer.Endpoints
 {
-    public class TokenEndpointHandler : IEndpointHandler
+    internal class TokenEndpointHandler : IEndpointHandler
     {
         private readonly IClientStore _clientStore;
         private readonly IResourceStore _resourceStore;
+        private readonly IdentityServerOptions _options;
+        private readonly ClientSecretParsers _clientSecretParsers;
+        private readonly IClientSecretValidator _clientSecretValidator;
 
         public TokenEndpointHandler(
             IClientStore clientStore,
-            IResourceStore resourceStore)
+            IResourceStore resourceStore,
+            IdentityServerOptions options,
+            ClientSecretParsers clientSecretParsers,
+            IClientSecretValidator clientSecretValidator)
         {
+            _options = options;
             _clientStore = clientStore;
             _resourceStore = resourceStore;
+            _clientSecretParsers = clientSecretParsers;
+            _clientSecretValidator = clientSecretValidator;
         }
 
         public async Task HandleAsync(HttpContext context)
@@ -56,16 +66,27 @@ namespace Soul.IdentityServer.Endpoints
                 throw new InvalidRequestException("invalid_request", "The 'client_id' parameter is missing.");
             }
 
+            //获取client
             var client = await _clientStore.FindClientByIdAsync(request.ClientId);
-
+            
             if (client == null)
             {
                 throw new InvalidRequestException("invalid_request", "The client cannot be null. Please provide a valid client.");
             }
-            
+
+            //解析clientSecret
+            var clientSecretParsed = await _clientSecretParsers.ParseAsync(context) ?? throw new InvalidRequestException("invalid_request", "?");
+
+            //验证clientSecret
+            var clientSecretValidateResult = await _clientSecretValidator.ValidateAsync(client, clientSecretParsed);
+            if (!clientSecretValidateResult)
+            {
+                throw new InvalidRequestException("invalid_request", "?");
+            }
+
             // 获取资源
-            var resources = await _resourceStore.GetResourcesAsync(request.Scope);
-            
+            var resources = await _resourceStore.GetResourcesByScopeAsync(request.Scope);
+
             // 示例响应
             await context.Response.WriteAsJsonAsync(new { Token = "123456" });
         }

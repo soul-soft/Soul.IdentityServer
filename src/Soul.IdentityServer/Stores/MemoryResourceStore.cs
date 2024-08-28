@@ -18,7 +18,7 @@ namespace Soul.IdentityServer.Stores
             _identityResources = identityResources;
         }
 
-        public Task<Resources> GetResourcesAsync(string[] scopes)
+        public Task<Resources> GetResourcesByScopeAsync(string[] scopes)
         {
             var apiScopes = _apiScopes
                 .Where(a => scopes.Contains(a.Name))
