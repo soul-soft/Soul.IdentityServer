@@ -8,6 +8,10 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddIdentityServer(builder =>
 {
+    builder.AddClientStore(new Client[] 
+    {
+        new Client("test")
+    });
     builder.AddResourceStore(
         new ApiScope[]
         {

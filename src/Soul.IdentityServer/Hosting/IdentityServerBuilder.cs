@@ -27,6 +27,20 @@ namespace Soul.IdentityServer.Hosting
             return this;
         }
 
+        public IdentityServerBuilder AddClientStore<TClientStore>()
+           where TClientStore : class, IClientStore
+        {
+            Services.TryAddTransient<IClientStore, TClientStore>();
+            return this;
+        }
+
+        public IdentityServerBuilder AddClientStore<TClientStore>(Func<IServiceProvider, TClientStore> clients)
+          where TClientStore : class, IClientStore
+        {
+            Services.TryAddTransient<IClientStore>(clients);
+            return this;
+        }
+
         public IdentityServerBuilder AddResourceStore<TResourceStore>()
             where TResourceStore : class, IResourceStore
         {

@@ -14,6 +14,14 @@ namespace Microsoft.Extensions.DependencyInjection
             return builder;
         }
 
+        public static IdentityServerBuilder AddClientStore(this IdentityServerBuilder builder,IEnumerable<Client> clients)
+        {
+            return builder.AddClientStore(sp =>
+            {
+                return new MemoryClientStore(clients);
+            });
+        }
+
         public static IdentityServerBuilder AddResourceStore(
             this IdentityServerBuilder builder,
             IEnumerable<ApiScope> apiScopes,
