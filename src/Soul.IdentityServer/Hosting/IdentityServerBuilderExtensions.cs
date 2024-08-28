@@ -10,6 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         internal static IdentityServerBuilder AddIdentityServerCore(this IdentityServerBuilder builder)
         {
+            builder.ConfigureOptions(configureOptions => { });
             builder.AddEndpointHandler<TokenEndpointHandler>("token");
             builder.AddEndpointHandler<AuthorizeEndpointHandler>("authorize");
             builder.AddClientSecretParser<FromFormHashClientSecretParser>();
