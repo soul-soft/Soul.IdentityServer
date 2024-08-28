@@ -30,7 +30,7 @@
         /// <summary>
         /// 请求的权限范围。
         /// </summary>
-        public string? Scope { get; set; }
+        public string[] Scope { get; set; } = Array.Empty<string>();
 
         /// <summary>
         /// 用于获取新访问令牌的刷新令牌。

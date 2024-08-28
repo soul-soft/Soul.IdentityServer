@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Soul.IdentityModel;
 
 namespace Soul.IdentityServer.Hosting
 {
@@ -22,6 +24,20 @@ namespace Soul.IdentityServer.Hosting
         {
             Services.AddTransient<TEndpointHandler>();
             Services.AddSingleton(new EndpointInfo(typeof(TEndpointHandler), path));
+            return this;
+        }
+
+        public IdentityServerBuilder AddResourceStore<TResourceStore>()
+            where TResourceStore : class, IResourceStore
+        {
+            Services.TryAddTransient<IResourceStore, TResourceStore>();
+            return this;
+        }
+
+        public IdentityServerBuilder AddResourceStore<TResourceStore>(Func<IServiceProvider, TResourceStore> resources)
+          where TResourceStore : class, IResourceStore
+        {
+            Services.TryAddTransient<IResourceStore>(resources);
             return this;
         }
 

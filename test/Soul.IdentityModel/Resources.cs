@@ -8,13 +8,13 @@ namespace Soul.IdentityModel
     {
         private IEnumerable<IResource> _resources;
 
-        public Resources(IEnumerable<IResource> resources)
+        public Resources(IEnumerable<ApiResource> resources, IEnumerable<IdentityResource> identityResources)
         {
-            _resources = resources;
+            _resources = resources.Cast<IResource>().Union(identityResources);
         }
 
         public IReadOnlyCollection<IScope> Scopes => ApiScopes.Cast<IScope>().Union(IdentityResources.Cast<IScope>()).ToList();
-       
+
         public IReadOnlyCollection<ApiScope> ApiScopes => _resources.Where(a => a is ApiScope).Cast<ApiScope>().ToList();
 
         public IReadOnlyCollection<ApiResource> ApiResources => _resources.Where(a => a is ApiResource).Cast<ApiResource>().ToList();

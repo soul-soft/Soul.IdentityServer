@@ -6,6 +6,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddIdentityServer(builder =>
 {
+    builder.AddResourceStore(sp => { });
     builder.ConfigureOptions(configureOptions => 
     {
         

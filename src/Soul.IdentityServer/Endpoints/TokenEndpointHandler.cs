@@ -62,7 +62,10 @@ namespace Soul.IdentityServer.Endpoints
             {
                 throw new InvalidRequestException("invalid_request", "The client cannot be null. Please provide a valid client.");
             }
-            _resourceStore.GetResourcesAsync();
+            
+            // 获取资源
+            var resources = await _resourceStore.GetResourcesAsync(request.Scope);
+            
             // 示例响应
             await context.Response.WriteAsJsonAsync(new { Token = "123456" });
         }

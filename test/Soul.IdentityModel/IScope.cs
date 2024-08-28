@@ -1,9 +1,6 @@
 ﻿namespace Soul.IdentityModel
 {
-    public interface IScope
+    public interface IScope : IResource
     {
-        string Name { get; set; }
-        string DisplayName { get; set; }
-        string Description { get; set; }
     }
 }
