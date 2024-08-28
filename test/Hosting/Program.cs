@@ -1,3 +1,5 @@
+using Soul.IdentityModel;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -6,10 +8,26 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddIdentityServer(builder =>
 {
-    builder.AddResourceStore(sp => { });
-    builder.ConfigureOptions(configureOptions => 
+    builder.AddResourceStore(
+        new ApiScope[] 
+        {
+            new ApiScope
+            {
+                Name = "baseapi"
+            }
+        },
+        new ApiResource[] 
+        {
+            new ApiResource
+            {
+                Scopes = { }
+            },
+        },
+        new IdentityResource[] { });
+
+    builder.ConfigureOptions(configureOptions =>
     {
-        
+
     });
 });
 

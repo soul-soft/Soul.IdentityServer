@@ -20,6 +20,10 @@ namespace Soul.IdentityServer.Stores
 
         public Task<Resources> GetResourcesAsync(string[] scopes)
         {
+            var apiScopes = _apiScopes
+                .Where(a => scopes.Contains(a.Name))
+                .ToList();
+
             var apiResources = _apiResources
                 .Where(a => a.Scopes.Any(a => scopes.Contains(a)))
                 .ToList();
@@ -28,7 +32,7 @@ namespace Soul.IdentityServer.Stores
                  .Where(a => scopes.Contains(a.Name))
                  .ToList();
 
-            var resources = new Resources(apiResources, identityResources);
+            var resources = new Resources(apiScopes, apiResources, identityResources);
 
             return Task.FromResult(resources);
         }
