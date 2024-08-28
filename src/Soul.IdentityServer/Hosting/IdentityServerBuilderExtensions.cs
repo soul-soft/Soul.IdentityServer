@@ -1,4 +1,5 @@
-﻿using Soul.IdentityModel;
+﻿using Microsoft.Extensions.Options;
+using Soul.IdentityModel;
 using Soul.IdentityServer.Endpoints;
 using Soul.IdentityServer.Hosting;
 using Soul.IdentityServer.Stores;
@@ -11,6 +12,10 @@ namespace Microsoft.Extensions.DependencyInjection
         internal static IdentityServerBuilder AddIdentityServerCore(this IdentityServerBuilder builder)
         {
             builder.ConfigureOptions(configureOptions => { });
+            builder.Services.AddSingleton(sp => 
+            {
+                return sp.GetRequiredService<IOptions<IdentityServerOptions>>().Value;
+            });
             builder.AddEndpointHandler<TokenEndpointHandler>("token");
             builder.AddEndpointHandler<AuthorizeEndpointHandler>("authorize");
             builder.AddClientSecretParser<FromFormHashClientSecretParser>();
