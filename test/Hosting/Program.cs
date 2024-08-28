@@ -9,18 +9,25 @@ builder.Services.AddRazorPages();
 builder.Services.AddIdentityServer(builder =>
 {
     builder.AddResourceStore(
-        new ApiScope[] 
+        new ApiScope[]
         {
             new ApiScope("baseapi")
         },
-        new ApiResource[] 
+        new ApiResource[]
         {
-            new ApiResource
+            new ApiResource("mallapi")
             {
-                Scopes = { }
+                Scopes = { "baseapi"}
+            },
+            new ApiResource("orderapi")
+            {
+                Scopes = { "baseapi"}
             },
         },
-        new IdentityResource[] { });
+        new IdentityResource[]
+        {
+            new IdentityResource("openid")
+        });
 
     builder.ConfigureOptions(configureOptions =>
     {

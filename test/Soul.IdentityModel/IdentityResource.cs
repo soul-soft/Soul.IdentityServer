@@ -12,7 +12,7 @@ namespace Soul.IdentityModel
 
         protected IdentityResource() { }
 
-        public IdentityResource(string name, string displayName, string description)
+        public IdentityResource(string name, string displayName = null, string description = null)
         {
             Name = name;
             DisplayName = displayName;
