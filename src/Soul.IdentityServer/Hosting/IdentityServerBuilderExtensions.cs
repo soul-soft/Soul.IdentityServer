@@ -2,15 +2,17 @@
 using Soul.IdentityServer.Endpoints;
 using Soul.IdentityServer.Hosting;
 using Soul.IdentityServer.Stores;
+using Soul.IdentityServer.Validation;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class IdentityServerBuilderExtensions
     {
-        internal static IdentityServerBuilder AddRequiredEndpoints(this IdentityServerBuilder builder)
+        internal static IdentityServerBuilder AddIdentityServerCore(this IdentityServerBuilder builder)
         {
             builder.AddEndpointHandler<TokenEndpointHandler>("token");
             builder.AddEndpointHandler<AuthorizeEndpointHandler>("authorize");
+            builder.AddClientSecretParser<FromFormHashClientSecretParser>();
             return builder;
         }
 

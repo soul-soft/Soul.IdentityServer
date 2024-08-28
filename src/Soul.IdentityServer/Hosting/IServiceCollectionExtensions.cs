@@ -7,7 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddIdentityServer(this IServiceCollection services, Action<IdentityServerBuilder> configure)
         {
             var builder = new IdentityServerBuilder(services)
-                .AddRequiredEndpoints();
+                .AddIdentityServerCore();
             configure(builder);
             return services;
         }

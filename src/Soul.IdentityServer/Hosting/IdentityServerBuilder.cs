@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Soul.IdentityModel;
+using Soul.IdentityServer.Validation;
 
 namespace Soul.IdentityServer.Hosting
 {
@@ -27,15 +28,22 @@ namespace Soul.IdentityServer.Hosting
             return this;
         }
 
+        public IdentityServerBuilder AddClientSecretParser<TClientSecretParser>()
+            where TClientSecretParser : class, IClientSecretParser
+        {
+            Services.AddTransient<IClientSecretParser, TClientSecretParser>();
+            return this;
+        }
+
         public IdentityServerBuilder AddClientStore<TClientStore>()
-           where TClientStore : class, IClientStore
+            where TClientStore : class, IClientStore
         {
             Services.TryAddTransient<IClientStore, TClientStore>();
             return this;
         }
 
         public IdentityServerBuilder AddClientStore<TClientStore>(Func<IServiceProvider, TClientStore> clients)
-          where TClientStore : class, IClientStore
+            where TClientStore : class, IClientStore
         {
             Services.TryAddTransient<IClientStore>(clients);
             return this;
@@ -49,7 +57,7 @@ namespace Soul.IdentityServer.Hosting
         }
 
         public IdentityServerBuilder AddResourceStore<TResourceStore>(Func<IServiceProvider, TResourceStore> resources)
-          where TResourceStore : class, IResourceStore
+            where TResourceStore : class, IResourceStore
         {
             Services.TryAddTransient<IResourceStore>(resources);
             return this;
